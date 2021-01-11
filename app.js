@@ -7,7 +7,6 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
 
@@ -32,13 +31,15 @@ app.set('views', path.join(__dirname, 'views'));
 // Implement CORS
 app.use(cors());
 // Access-Control-Allow-Origin *
-// api.natours.com, front-end natours.com
-// app.use(cors({
-//   origin: 'https://www.natours.com'
-// }))
+// API'ımız api.natours.com adresinde iken frontend kısmından erişilmesi için natours.com adresine izin veriyoruz, alttaki komutla
+// app.use(
+//   cors({
+//     origin: 'https://www.natours.com',
+//   })
+// );
 
-app.options('*', cors());
-// app.options('/api/v1/tours/:id', cors());
+app.options('*', cors()); // Tüm optionlara izin verdik, tüm pathlere
+app.options('/api/v1/tours/:id', cors()); // Tek path'e izin verdik
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -55,16 +56,15 @@ if (process.env.NODE_ENV === 'development') {
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!'
+  message: 'Too many requests from this IP, please try again in an hour!',
 });
 app.use('/api', limiter);
 
-// Stripe webhook, BEFORE body-parser, because stripe needs the body as stream
 app.post(
   '/webhook-checkout',
-  bodyParser.raw({ type: 'application/json' }),
+  express.raw({ type: 'application/json' }),
   bookingController.webhookCheckout
-);
+); // Body is NOT json format in here, is not parsed
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
@@ -86,12 +86,12 @@ app.use(
       'ratingsAverage',
       'maxGroupSize',
       'difficulty',
-      'price'
-    ]
+      'price',
+    ],
   })
 );
 
-app.use(compression());
+app.use(compression()); //Textleri compressliyor
 
 // Test middleware
 app.use((req, res, next) => {

@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const pug = require('pug');
 const htmlToText = require('html-to-text');
+// new Email(user, url).sendWelcome();
 
 module.exports = class Email {
   constructor(user, url) {
@@ -14,11 +15,11 @@ module.exports = class Email {
     if (process.env.NODE_ENV === 'production') {
       // Sendgrid
       return nodemailer.createTransport({
-        service: 'SendGrid',
+        service: 'SendGrid', // Predefined services like Gmail, SendGrid etc.
         auth: {
           user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD
-        }
+          pass: process.env.SENDGRID_PASSWORD,
+        },
       });
     }
 
@@ -27,27 +28,27 @@ module.exports = class Email {
       port: process.env.EMAIL_PORT,
       auth: {
         user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD
-      }
+        pass: process.env.EMAIL_PASSWORD,
+      },
     });
   }
 
   // Send the actual email
   async send(template, subject) {
     // 1) Render HTML based on a pug template
+    // res.render('')
     const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
       firstName: this.firstName,
       url: this.url,
-      subject
+      subject,
     });
-
     // 2) Define email options
     const mailOptions = {
       from: this.from,
       to: this.to,
       subject,
+      text: htmlToText.fromString(html),
       html,
-      text: htmlToText.fromString(html)
     };
 
     // 3) Create a transport and send email
@@ -55,7 +56,7 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send('welcome', 'Welcome to the Natours Family!');
+    await this.send('welcome', 'Welcome to the Candy Shop!');
   }
 
   async sendPasswordReset() {
@@ -65,3 +66,20 @@ module.exports = class Email {
     );
   }
 };
+
+// const sendEmail = async (options) => {
+//   // 2) Define the email options
+
+//   // 3) Actually send the email
+// };
+
+// module.exports = sendEmail;
+// // 1) Create a transporter
+// const transporter = nodemailer.createTransport({
+//   host: process.env.EMAIL_HOST,
+//   port: process.env.EMAIL_PORT,
+//   auth: {
+//     user: process.env.EMAIL_USERNAME,
+//     pass: process.env.EMAIL_PASSWORD,
+//   },
+// });
