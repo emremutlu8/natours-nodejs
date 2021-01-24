@@ -1,13 +1,12 @@
 # Natours Application
-### What I have learned in CSS / SCSS Course
 
 # Courses: 
 ## https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/
 
-# These are the websites that I learnt to build in courses:
+# These are the websites that I learned to build in courses:
 ## https://www.natours.dev/
 
-# What did I learnt
+# What did I learn
 
 ### Natours Application
 
