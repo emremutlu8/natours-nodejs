@@ -1,14 +1,15 @@
 # Natours Application
+### What I have learned in CSS / SCSS Course
 
-https://www.natours.dev/
+# Courses: 
+## https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/
 
-Built using modern technologies: node.js, express, mongoDB, mongoose and friends 😁
+# These are the websites that I learnt to build in courses:
+## https://www.natours.dev/
 
-https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/
+# What did I learnt
 
-
-
-WHAT DID I LEARN WITH THIS COURSE:
+### Natours Application
 
 Master the entire modern back-end stack: Node, Express, MongoDB and Mongoose (MongoDB JS driver)
 
@@ -37,4 +38,7 @@ Sending emails & uploading files
 Deploy the final application to production (including a Git crash-course)
 
 Downloadable videos, code and design assets for projects
+
+
+
 
